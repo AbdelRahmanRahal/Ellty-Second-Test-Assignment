@@ -13,16 +13,12 @@ const Textbox = ({ placeholder }: TextboxProps) => {
       onKeyDown={(event) => {
         // Allow: backspace, tab, delete, arrows, and numbers
         if (
-          ![
-            "Backspace",
-            "Tab",
-            "ArrowLeft",
-            "ArrowRight",
-            "Delete",
-          ].includes(event.key) &&
+          !["Backspace", "Tab", "ArrowLeft", "ArrowRight", "Delete"].includes(
+            event.key
+          ) &&
           !/[0-9]/.test(event.key)
         ) {
-          event.preventDefault();
+          event.preventDefault()
         }
       }}
     />

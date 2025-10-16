@@ -26,7 +26,10 @@ const ReplyBox = ({ id }: ReplyBoxProps) => {
 
   return (
     <div className="reply-box">
-      <button className={`submit-button ${isReplying ? "is-replying" : ""}`} onClick={handleReplyClick}>
+      <button
+        className={`submit-button ${isReplying ? "is-replying" : ""}`}
+        onClick={handleReplyClick}
+      >
         {isReplying ? "Post" : "Reply"}
       </button>
       <div className={`reply-controls ${isReplying ? "visible" : ""}`}>

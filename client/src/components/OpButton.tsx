@@ -11,8 +11,16 @@ const OpButton = ({ Op, name }: OpButtonProps) => {
 
   return (
     <div className="op-button-wrapper">
-      <input type="radio" id={id} name={name} value={Op} className="op-radio-input" />
-      <label htmlFor={id} className="op-button-label">{Op}</label>
+      <input
+        type="radio"
+        id={id}
+        name={name}
+        value={Op}
+        className="op-radio-input"
+      />
+      <label htmlFor={id} className="op-button-label">
+        {Op}
+      </label>
     </div>
   )
 }
