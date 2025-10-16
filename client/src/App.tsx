@@ -28,7 +28,21 @@ function App() {
         </svg>
         Test Assignment Dashboard
       </h1>
-      <Post id="1241" number={3} />
+      <Post
+        id="1241"
+        author="AbdelRahman Rahal"
+        number={3}
+        replies={[
+          {
+            id: "1241-1",
+            author: "Iuliia",
+            number: 3,
+            replies: [{ id: "123", author: "Goku", number: 2 }],
+          },
+          { id: "1241-2", author: "Walter White", number: 5 },
+          { id: "1241-3", author: "Anonymous Hacker!!!", number: 4 },
+        ]}
+      />
     </>
   )
 }
