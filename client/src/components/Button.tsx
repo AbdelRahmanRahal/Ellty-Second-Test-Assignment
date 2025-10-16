@@ -3,7 +3,7 @@ import "./Button.css"
 interface ButtonProps {
   label: string
   color?: string
-  className: string
+  className?: string
   onClick: () => void
 }
 
