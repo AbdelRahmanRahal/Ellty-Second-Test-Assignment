@@ -1,5 +1,5 @@
 import "./App.css"
-import Post from "./components/Post.tsx"
+import PostsDisplay from "./components/PostsDisplay.tsx"
 
 function App() {
   return (
@@ -28,29 +28,7 @@ function App() {
         </svg>
         Test Assignment Dashboard
       </h1>
-      <Post
-        id="1241"
-        author="AbdelRahman Rahal"
-        number={3}
-        replies={[
-          {
-            id: "1241-1",
-            author: "Iuliia",
-            operation: "+",
-            operand: 5,
-            replies: [
-              { id: "123", author: "Goku", operation: "×", operand: 10 },
-            ],
-          },
-          { id: "1241-2", author: "Walter White", operation: "-", operand: 2 },
-          {
-            id: "1241-3",
-            author: "Anonymous Hacker!!!",
-            operation: "/",
-            operand: 3,
-          },
-        ]}
-      />
+      <PostsDisplay />
     </>
   )
 }
