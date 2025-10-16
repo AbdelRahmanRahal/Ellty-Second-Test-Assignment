@@ -1,4 +1,4 @@
-import pool from "../db.js"
+import { Post } from "../models/postModel.js"
 
 /**
  * @description Get all posts with their authors, ordered by creation time.
@@ -6,20 +6,8 @@ import pool from "../db.js"
  */
 export const getAllPosts = async (req, res) => {
   try {
-    const { rows } = await pool.query(`
-      SELECT 
-        p.id, 
-        p.parent_id, 
-        p.base_number, 
-        p.operation, 
-        p.operand, 
-        u.full_name AS author,
-        p.created_at
-      FROM posts p
-      JOIN users u ON u.id = p.author_id
-      ORDER BY p.created_at
-    `)
-    res.json(rows)
+    const posts = await Post.findAll()
+    res.json(posts)
   } catch (err) {
     console.error(err.message)
     res.status(500).json({ error: "Database error while fetching posts" })
@@ -39,13 +27,14 @@ export const createPost = async (req, res) => {
   }
 
   try {
-    const { rows } = await pool.query(
-      `INSERT INTO posts (author_id, parent_id, base_number, operation, operand)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING *`,
-      [author_id, parent_id, base_number, operation, operand]
-    )
-    res.status(201).json(rows[0])
+    const newPost = await Post.create({
+      author_id,
+      parent_id,
+      base_number,
+      operation,
+      operand,
+    })
+    res.status(201).json(newPost)
   } catch (err) {
     console.error(err.message)
     // The DB constraint will catch invalid post types

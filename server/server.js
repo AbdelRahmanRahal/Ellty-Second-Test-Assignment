@@ -1,20 +1,20 @@
 import express from "express"
 import cors from "cors"
-import dotenv from "dotenv"
-import postsRoutes from "./routes/posts.js"
-
-dotenv.config()
+import postsRoutes from "./routes/postsRoutes.js"
 
 const app = express()
-app.use(cors())
-app.use(express.json())
+const PORT = process.env.PORT || 3000
+
+// Middleware
+app.use(cors()) // Enable Cross-Origin Resource Sharing
+app.use(express.json()) // To parse JSON bodies
 
 // API Routes
 app.use("/api/posts", postsRoutes)
 
-app.get("/", (req, res) => {
-  res.send("Backend is running 🚀")
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`)
 })
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+export default app
