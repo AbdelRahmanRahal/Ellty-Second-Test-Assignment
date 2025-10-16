@@ -1,0 +1,25 @@
+.btn {
+  color: #ffffff;
+  margin-right: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s ease-in-out;
+  padding: 7px 20px;
+  border-radius: 100px;
+  /* Use the variable for the background color */
+  background-color: var(--button-color, #1d87d8); /* #1975bb is a fallback */
+  background: #1d87d8;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.btn:hover {
+  /* Mix the button's color with 15% black to darken it on hover */
+  background-color: color-mix(in srgb, var(--button-color, #1d87d8) 85%, black);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
