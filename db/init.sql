@@ -14,7 +14,7 @@ CREATE TABLE
         author_id INT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
         parent_id INT REFERENCES posts (id) ON DELETE CASCADE,
         base_number FLOAT,
-        operation VARCHAR(1) CHECK (operation IN ('+', '-', '*', '/')),
+        operation VARCHAR(1) CHECK (operation IN ('+', '-', '×', '/')),
         operand FLOAT,
         created_at TIMESTAMPTZ DEFAULT NOW (),
         CONSTRAINT post_type_check CHECK (
@@ -64,4 +64,4 @@ VALUES
 INSERT INTO
     posts (author_id, parent_id, operation, operand)
 VALUES
-    (3, 2, '*', 10); -- id = 5
+    (3, 2, '×', 10); -- id = 5
