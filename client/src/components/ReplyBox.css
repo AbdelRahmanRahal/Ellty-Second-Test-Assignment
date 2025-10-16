@@ -1,0 +1,55 @@
+.reply-box {
+  position: absolute;
+  bottom: 1;
+  left: 22px;
+  width: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.reply-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width 0.3s ease-in-out, opacity 0.2s ease-in-out 0.2s;
+  white-space: nowrap; /* Prevents items from wrapping during transition */
+}
+
+.reply-controls.visible {
+  max-width: 500px; /* Adjust as needed to fit all controls */
+  opacity: 1;
+}
+
+.submit-button {
+  color: #ffffff;
+  margin-right: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s ease-in-out;
+  padding: 7px 20px;
+  border-radius: 100px;
+  background: #1d87d8;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.submit-button:hover {
+  background: #1975bb;
+}
+
+.submit-button:active {
+  transform: scale(0.95);
+}
+
+.submit-button.is-replying {
+  background: #09bd6c;
+}
