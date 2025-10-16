@@ -1,26 +1,56 @@
 import "./Reply.css"
 import ReplyBox from "./ReplyBox"
 
-interface ReplyProps {
+export interface ReplyData {
   id: string
   author: string
-  // The content will be the number from the parent and the operator
-  number: number
-  replies?: ReplyProps[]
+  operation: "+" | "-" | "×" | "/"
+  operand: number
+  replies?: ReplyData[]
 }
 
-const Reply = ({ id, author, number, replies }: ReplyProps) => {
+interface ReplyProps extends ReplyData {
+  parentNumber: number
+}
+
+const calculate = (base: number, op: string, operand: number): number => {
+  switch (op) {
+    case "+":
+      return base + operand
+    case "-":
+      return base - operand
+    case "×":
+      return base * operand
+    case "/":
+      return base / operand
+    default:
+      return base
+  }
+}
+
+const Reply = ({
+  id,
+  author,
+  operation,
+  operand,
+  replies,
+  parentNumber,
+}: ReplyProps) => {
+  const currentNumber = calculate(parentNumber, operation, operand)
   return (
     <div className="reply-container">
       <div className="reply">
         <h4>{author}</h4>
-        <p>{number}</p>
+        <span className="reply-operation">{`${operation} ${operand}`}</span>
+        <div className="reply-content">
+          <p className="reply-result">{currentNumber}</p>
+        </div>
         <ReplyBox id={id} />
       </div>
       {replies && replies.length > 0 && (
         <div className="reply-children">
           {replies.map((reply) => (
-            <Reply key={reply.id} {...reply} />
+            <Reply key={reply.id} {...reply} parentNumber={currentNumber} />
           ))}
         </div>
       )}

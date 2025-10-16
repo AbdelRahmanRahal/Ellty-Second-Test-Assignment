@@ -1,13 +1,12 @@
 import "./Post.css"
 import ReplyBox from "./ReplyBox"
-import Reply from "./Reply"
+import Reply, { type ReplyData } from "./Reply.tsx"
 
 interface PostProps {
-  // TODO: implement user feature later
   id: string
   author: string
   number: number
-  replies?: Reply[]
+  replies?: ReplyData[]
   // TODO: implement date posted feature later
   // date: Date
 }
@@ -17,15 +16,13 @@ const Post = ({ id, author, number, replies }: PostProps) => {
     <div className="post-with-replies-container">
       <div className="post">
         <h4>{author}</h4>
-        <p>
-          Test {id} {number}
-        </p>
+        <p>{number}</p>
         <ReplyBox id={id} />
       </div>
       {replies && replies.length > 0 && (
         <div className="post-replies">
           {replies.map((reply) => (
-            <Reply key={reply.id} {...reply} />
+            <Reply key={reply.id} {...reply} parentNumber={number} />
           ))}
         </div>
       )}

@@ -36,11 +36,19 @@ function App() {
           {
             id: "1241-1",
             author: "Iuliia",
-            number: 3,
-            replies: [{ id: "123", author: "Goku", number: 2 }],
+            operation: "+",
+            operand: 5,
+            replies: [
+              { id: "123", author: "Goku", operation: "×", operand: 10 },
+            ],
           },
-          { id: "1241-2", author: "Walter White", number: 5 },
-          { id: "1241-3", author: "Anonymous Hacker!!!", number: 4 },
+          { id: "1241-2", author: "Walter White", operation: "-", operand: 2 },
+          {
+            id: "1241-3",
+            author: "Anonymous Hacker!!!",
+            operation: "/",
+            operand: 3,
+          },
         ]}
       />
     </>
