@@ -30,7 +30,7 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
-    command: npm run dev
+    # command: npm run dev
     networks:
       - numbersnet
 
@@ -48,7 +48,7 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules
-    command: npm run dev -- --host
+    # command: npm run dev -- --host
     networks:
       - numbersnet
 
