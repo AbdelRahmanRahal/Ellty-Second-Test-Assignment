@@ -23,7 +23,8 @@ export interface NewPostPayload {
 }
 
 export const fetchPosts = async (): Promise<Post[]> => {
-  const response = await fetch("http://localhost:3000/api/posts")
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+  const response = await fetch(`${apiBaseUrl}/posts`)
   if (!response.ok) {
     throw new Error("Failed to fetch posts")
   }
@@ -104,8 +105,8 @@ export const createPost = async (
   postData: NewPostPayload,
   token: string
 ): Promise<Post> => {
-  const baseUrl = import.meta.env.VITE_API_URL
-  const response = await fetch(`${baseUrl}/api/posts`, {
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+  const response = await fetch(`${apiBaseUrl}/posts`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
