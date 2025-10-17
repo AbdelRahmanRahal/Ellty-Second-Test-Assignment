@@ -12,6 +12,7 @@ export interface ReplyData {
 interface ReplyProps extends ReplyData {
   parentNumber: number
   onReplyPosted: () => void
+  isAuthenticated: boolean
 }
 
 const calculate = (base: number, op: string, operand: number): number => {
@@ -37,6 +38,7 @@ const Reply = ({
   replies,
   parentNumber,
   onReplyPosted,
+  isAuthenticated,
 }: ReplyProps) => {
   const currentNumber = calculate(parentNumber, operation, operand)
   return (
@@ -47,12 +49,12 @@ const Reply = ({
         <div className="reply-content">
           <p className="reply-result">{currentNumber}</p>
         </div>
-        <ReplyBox id={id} onReplyPosted={onReplyPosted} />
+        {isAuthenticated && <ReplyBox id={id} onReplyPosted={onReplyPosted} />}
       </div>
       {replies && replies.length > 0 && (
         <div className="reply-children">
           {replies.map((reply) => (
-            <Reply key={reply.id} {...reply} parentNumber={currentNumber} onReplyPosted={onReplyPosted} />
+            <Reply key={reply.id} {...reply} parentNumber={currentNumber} onReplyPosted={onReplyPosted} isAuthenticated={isAuthenticated} />
           ))}
         </div>
       )}

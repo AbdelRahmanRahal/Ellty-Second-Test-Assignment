@@ -1,80 +1,88 @@
-import React, { useState, type FormEvent } from "react";
-import Button from "../Button";
-import "./AuthPage.css";
+import React, { useState, type FormEvent } from "react"
+import Button from "../Button"
+import "./AuthPage.css"
 
 interface AuthPageProps {
-  onAuthSuccess: () => void;
+  onAuthSuccess: () => void
+  onGuestLogin: () => void
 }
 
-const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess, onGuestLogin }) => {
+  const [isLogin, setIsLogin] = useState(true)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [fullName, setFullName] = useState("")
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsLoading(true);
+    e.preventDefault()
+    setError("")
+    setIsLoading(true)
 
-    const url = isLogin ? "http://localhost:3000/api/users/signin" : "http://localhost:3000/api/users/signup";
+    const url = isLogin
+      ? "http://localhost:3000/api/users/signin"
+      : "http://localhost:3000/api/users/signup"
     const body = isLogin
       ? JSON.stringify({ username, password })
-      : JSON.stringify({ username, full_name: fullName, password });
+      : JSON.stringify({ username, full_name: fullName, password })
 
     try {
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body,
-      });
+      })
 
       if (!response.ok) {
         // Try to get a specific error message from the server's JSON response
-        let errorData;
+        let errorData
         try {
-          errorData = await response.json();
+          errorData = await response.json()
         } catch (jsonError) {
           // If the body isn't JSON or is empty, fall back to the status text
-          throw new Error(response.statusText || "An unknown network error occurred.");
+          throw new Error(
+            response.statusText || "An unknown network error occurred."
+          )
         }
-        throw new Error(errorData.error || "An unknown error occurred.");
+        throw new Error(errorData.error || "An unknown error occurred.")
       }
 
-      const data = await response.json();
+      const data = await response.json()
       // Assuming the token should be stored for session management
-      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("user", JSON.stringify(data))
 
-      console.log(isLogin ? "Login successful" : "Registration successful", data);
-      onAuthSuccess();
+      console.log(
+        isLogin ? "Login successful" : "Registration successful",
+        data
+      )
+      onAuthSuccess()
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const toggleForm = () => {
-    setIsLogin(!isLogin);
-    setError("");
+    setIsLogin(!isLogin)
+    setError("")
     // Clear form fields when switching
-    setUsername("");
-    setPassword("");
-    setFullName("");
-  };
+    setUsername("")
+    setPassword("")
+    setFullName("")
+  }
 
   const getButtonLabel = () => {
     if (isLoading) {
       if (isLogin) {
-        return "Logging In...";
+        return "Logging In..."
       } else {
-        return "Creating Account...";
+        return "Creating Account..."
       }
     }
-    return isLogin ? "Log In" : "Create Account";
-  };
+    return isLogin ? "Log In" : "Create Account"
+  }
 
   return (
     <div className="auth-container">
@@ -119,13 +127,26 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
             placeholder="••••••••"
           />
         </div>
-        <Button label={getButtonLabel()} disabled={isLoading} onClick={handleSubmit} />
+        <Button
+          label={getButtonLabel()}
+          disabled={isLoading}
+          onClick={handleSubmit}
+        />
         <p className="toggle-auth" onClick={toggleForm}>
-          {isLogin ? "Need an account? Register" : "Already have an account? Log In"}
+          {isLogin
+            ? "Need an account? Register"
+            : "Already have an account? Log In"}
+        </p>
+        <p
+          className="guest-login"
+          onClick={onGuestLogin}
+          style={{ cursor: "pointer" }}
+        >
+          or Continue as a Guest
         </p>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default AuthPage;
+export default AuthPage

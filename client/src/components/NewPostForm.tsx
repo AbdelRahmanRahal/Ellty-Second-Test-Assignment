@@ -52,7 +52,11 @@ const NewPostForm = ({ onPostCreated }: NewPostFormProps) => {
       <h3>Create a New Post</h3>
       <div className="form-content">
         <Textbox name="base_number" placeholder="Number..." />
-        <Button type="submit" label={isLoading ? "Posting..." : "Post"} disabled={isLoading} />
+        <Button
+          type="submit"
+          label={isLoading ? "Posting..." : "Post"}
+          disabled={isLoading}
+        />
       </div>
       {error && <p className="form-error">{error}</p>}
     </form>

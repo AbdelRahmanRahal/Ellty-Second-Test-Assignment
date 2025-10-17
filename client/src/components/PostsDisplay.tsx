@@ -9,7 +9,11 @@ import NewPostForm from "./NewPostForm.tsx"
 import Post from "./Post.tsx"
 import "./PostsDisplay.css"
 
-const PostsDisplay: React.FC = () => {
+interface PostsDisplayProps {
+  isAuthenticated: boolean;
+}
+
+const PostsDisplay: React.FC<PostsDisplayProps> = ({ isAuthenticated }) => {
   const [posts, setPosts] = useState<TreeNode[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
@@ -45,7 +49,7 @@ const PostsDisplay: React.FC = () => {
 
   return (
     <div className="posts-display">
-        <NewPostForm onPostCreated={loadPosts} />
+        {isAuthenticated && <NewPostForm onPostCreated={loadPosts} />}
         {posts.map((post) => (
           <Post
             key={post.id}
@@ -54,6 +58,7 @@ const PostsDisplay: React.FC = () => {
             number={post.base_number!}
             replies={transformNodeToReplyData(post.children)}
             onReplyPosted={loadPosts}
+            isAuthenticated={isAuthenticated}
           />
         ))}
     </div>

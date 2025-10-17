@@ -1,32 +1,41 @@
-import { useState, useEffect } from "react";
-import "./App.css";
-import PostsDisplay from "./components/PostsDisplay.tsx";
-import Button from "./components/Button.tsx";
-import AuthPage from "./components/Auth/AuthPage.tsx";
+import { useState, useEffect } from "react"
+import "./App.css"
+import PostsDisplay from "./components/PostsDisplay.tsx"
+import Button from "./components/Button.tsx"
+import AuthPage from "./components/Auth/AuthPage.tsx"
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isGuest, setIsGuest] = useState(false)
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    const user = localStorage.getItem("user")
     if (user) {
-      setIsAuthenticated(true);
+      setIsAuthenticated(true)
     }
-  }, []);
+  }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    setIsAuthenticated(false);
-    console.log("User logged out.");
-  };
+    if (localStorage.getItem("user")) {
+      localStorage.removeItem("user")
+    }
+    setIsAuthenticated(false)
+    // If logging out, they are no longer a guest either
+    setIsGuest(false)
+    console.log("User logged out.")
+  }
 
   const handleAuthSuccess = () => {
-    setIsAuthenticated(true);
-  };
+    setIsAuthenticated(true)
+  }
+
+  const handleGuestLogin = () => {
+    setIsGuest(true)
+  }
 
   return (
     <>
-      {isAuthenticated ? (
+      {isAuthenticated || isGuest ? (
         <>
           <header className="app-header">
             <h1>
@@ -61,13 +70,16 @@ function App() {
               className="logout-button"
             />
           </header>
-          <PostsDisplay />
+          <PostsDisplay isAuthenticated={isAuthenticated} />
         </>
       ) : (
-        <AuthPage onAuthSuccess={handleAuthSuccess} />
+        <AuthPage
+          onAuthSuccess={handleAuthSuccess}
+          onGuestLogin={handleGuestLogin}
+        />
       )}
     </>
-  );
+  )
 }
 
-export default App;
+export default App
