@@ -20,9 +20,9 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess, onGuestLogin }) => {
     setError("")
     setIsLoading(true)
 
-    const url = isLogin
-      ? "http://localhost:3000/api/users/signin"
-      : "http://localhost:3000/api/users/signup"
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+    const endpoint = isLogin ? "/users/signin" : "/users/signup"
+    const url = `${apiBaseUrl}${endpoint}`
     const body = isLogin
       ? JSON.stringify({ username, password })
       : JSON.stringify({ username, full_name: fullName, password })
