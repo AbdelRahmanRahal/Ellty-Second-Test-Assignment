@@ -5,6 +5,7 @@ import {
   transformNodeToReplyData,
   type TreeNode,
 } from "../api/posts.ts"
+import NewPostForm from "./NewPostForm.tsx"
 import Post from "./Post.tsx"
 import "./PostsDisplay.css"
 
@@ -24,9 +25,7 @@ const PostsDisplay: React.FC = () => {
       const postTree = buildPostTree(sortedPosts)
       setPosts(postTree)
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unknown error occurred"
-      )
+      setError(err instanceof Error ? err.message : "An unknown error occurred")
     } finally {
       setLoading(false)
     }
@@ -46,16 +45,17 @@ const PostsDisplay: React.FC = () => {
 
   return (
     <div className="posts-display">
-      {posts.map((post) => (
-        <Post
-          key={post.id}
-          id={String(post.id)}
-          author={post.author}
-          number={post.base_number!}
-          replies={transformNodeToReplyData(post.children)}
-          onReplyPosted={loadPosts}
-        />
-      ))}
+        <NewPostForm onPostCreated={loadPosts} />
+        {posts.map((post) => (
+          <Post
+            key={post.id}
+            id={String(post.id)}
+            author={post.author}
+            number={post.base_number!}
+            replies={transformNodeToReplyData(post.children)}
+            onReplyPosted={loadPosts}
+          />
+        ))}
     </div>
   )
 }

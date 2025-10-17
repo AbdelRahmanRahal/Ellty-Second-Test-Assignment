@@ -1,0 +1,32 @@
+.new-post-form {
+  width: 90%;
+  padding: 20px;
+  margin: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.12);
+}
+
+.new-post-form h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.new-post-form .form-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.new-post-form .form-error {
+  color: #de2626;
+  font-size: 0.9em;
+  margin-top: 10px;
+  text-align: center;
+}

@@ -4,8 +4,9 @@ interface ButtonProps {
   label: string
   color?: string
   className?: string
+  type?: "button" | "submit" | "reset"
   disabled?: boolean
-  onClick: (event: any) => void
+  onClick?: (event: any) => void
 }
 
 const Button = ({
@@ -13,6 +14,7 @@ const Button = ({
   color = "#1d87d8",
   className,
   disabled = false,
+  type = "button",
   onClick,
 }: ButtonProps) => {
   const buttonStyle = {
@@ -21,6 +23,7 @@ const Button = ({
 
   return (
     <button
+      type={type}
       className={className ? `${className} btn` : "btn"}
       style={buttonStyle}
       onClick={onClick}
