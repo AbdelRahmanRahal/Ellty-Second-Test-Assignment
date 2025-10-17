@@ -1,4 +1,3 @@
-import { type FormEvent } from "react";
 import "./Button.css"
 
 interface ButtonProps {

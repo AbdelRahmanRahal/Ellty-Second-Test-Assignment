@@ -2,12 +2,14 @@ import "./Textbox.css"
 
 interface TextboxProps {
   placeholder?: string
+  name?: string
 }
 
-const Textbox = ({ placeholder }: TextboxProps) => {
+const Textbox = ({ placeholder, name }: TextboxProps) => {
   return (
     <input
       type="number"
+      name={name}
       className="textbox"
       placeholder={placeholder}
       onKeyDown={(event) => {

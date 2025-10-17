@@ -15,6 +15,13 @@ export interface TreeNode extends Post {
   result: number
 }
 
+export interface NewPostPayload {
+  parent_id?: number | null
+  base_number?: number | null
+  operation?: string | null
+  operand?: number | null
+}
+
 export const fetchPosts = async (): Promise<Post[]> => {
   const response = await fetch("http://localhost:3000/api/posts")
   if (!response.ok) {
@@ -91,4 +98,26 @@ export const transformNodeToReplyData = (nodes: TreeNode[]): ReplyData[] => {
       replies: node.children ? transformNodeToReplyData(node.children) : [],
     }
   })
+}
+
+export const createPost = async (
+  postData: NewPostPayload,
+  token: string
+): Promise<Post> => {
+  const baseUrl = import.meta.env.VITE_API_URL
+  const response = await fetch(`${baseUrl}/api/posts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(postData),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json()
+    throw new Error(errorData.error || "Failed to create post")
+  }
+
+  return response.json()
 }

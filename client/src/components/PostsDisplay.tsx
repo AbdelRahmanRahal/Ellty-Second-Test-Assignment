@@ -13,26 +13,26 @@ const PostsDisplay: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        const rawPosts = await fetchPosts()
-        // The API response might not be sorted, which can cause issues with calculation.
-        // Sorting by ID ensures parents are processed before children.
-        const sortedPosts = rawPosts.sort((a, b) => a.id - b.id)
-        const postTree = buildPostTree(sortedPosts)
-        setPosts(postTree)
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "An unknown error occurred"
-        )
-      } finally {
-        setLoading(false)
-      }
+  const loadPosts = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const rawPosts = await fetchPosts()
+      // The API response might not be sorted, which can cause issues with calculation.
+      // Sorting by ID ensures parents are processed before children.
+      const sortedPosts = rawPosts.sort((a, b) => a.id - b.id)
+      const postTree = buildPostTree(sortedPosts)
+      setPosts(postTree)
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred"
+      )
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     loadPosts()
   }, [])
 
@@ -53,6 +53,7 @@ const PostsDisplay: React.FC = () => {
           author={post.author}
           number={post.base_number!}
           replies={transformNodeToReplyData(post.children)}
+          onReplyPosted={loadPosts}
         />
       ))}
     </div>
