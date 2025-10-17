@@ -1,8 +1,8 @@
 import { useState, type FormEvent } from "react"
-import OpButton from "./OpButton"
-import Textbox from "./Textbox"
+import OpButton from "./OpButton.tsx"
+import Textbox from "./Textbox.tsx"
 import "./ReplyBox.css"
-import { createPost } from "../api/posts"
+import { createPost } from "../api/posts.ts"
 
 interface ReplyBoxProps {
   id: string

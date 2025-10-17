@@ -1,5 +1,5 @@
 import "./Reply.css"
-import ReplyBox from "./ReplyBox"
+import ReplyBox from "./ReplyBox.tsx"
 
 export interface ReplyData {
   id: string
@@ -54,7 +54,13 @@ const Reply = ({
       {replies && replies.length > 0 && (
         <div className="reply-children">
           {replies.map((reply) => (
-            <Reply key={reply.id} {...reply} parentNumber={currentNumber} onReplyPosted={onReplyPosted} isAuthenticated={isAuthenticated} />
+            <Reply
+              key={reply.id}
+              {...reply}
+              parentNumber={currentNumber}
+              onReplyPosted={onReplyPosted}
+              isAuthenticated={isAuthenticated}
+            />
           ))}
         </div>
       )}

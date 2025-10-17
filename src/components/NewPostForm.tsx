@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react"
-import { createPost } from "../api/posts"
-import Button from "./Button"
-import Textbox from "./Textbox"
+import { createPost } from "../api/posts.ts"
+import Button from "./Button.tsx"
+import Textbox from "./Textbox.tsx"
 import "./NewPostForm.css"
 
 interface NewPostFormProps {

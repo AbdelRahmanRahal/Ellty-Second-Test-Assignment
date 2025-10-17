@@ -1,5 +1,5 @@
 import React, { useState, type FormEvent } from "react"
-import Button from "../Button"
+import Button from "../Button.tsx"
 import "./AuthPage.css"
 
 interface AuthPageProps {
