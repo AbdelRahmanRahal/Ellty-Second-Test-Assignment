@@ -37,4 +37,26 @@ export const Post = {
     )
     return rows[0]
   },
+
+  /**
+   * @description Find a single post by its ID, including the author's full name.
+   * @param {number} id - The ID of the post to find.
+   * @returns {Promise<object|undefined>} A promise that resolves to the post object or undefined if not found.
+   */
+  async findById(id) {
+    const { rows } = await pool.query(`
+      SELECT
+        p.id,
+        p.parent_id,
+        p.base_number,
+        p.operation,
+        p.operand,
+        u.full_name AS author,
+        p.created_at
+      FROM posts p
+      JOIN users u ON u.id = p.author_id
+      WHERE p.id = $1
+    `, [id]);
+    return rows[0];
+  }
 }

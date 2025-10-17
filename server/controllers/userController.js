@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/userModel.js";
 
 const createToken = (id) => {
-  return jwt.sign({ id }, "USE ACTUAL JWT TOKEN HERE IN DEPLOYMENT", {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "3d",
   });
 };

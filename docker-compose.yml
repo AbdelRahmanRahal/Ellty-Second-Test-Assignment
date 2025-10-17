@@ -26,6 +26,7 @@ services:
     environment:
       NODE_ENV: development
       DATABASE_URL: postgres://app_user:app_password@db:5432/numbers_app
+      JWT_SECRET: your_super_secret_key_change_me
     volumes:
       - ./server:/app
       - /app/node_modules

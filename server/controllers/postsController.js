@@ -19,12 +19,9 @@ export const getAllPosts = async (req, res) => {
  * It can be a root post (with base_number) or a reply (with parent_id, operation, operand).
  */
 export const createPost = async (req, res) => {
-  const { author_id, parent_id, base_number, operation, operand } = req.body
-
-  // Basic validation
-  if (!author_id) {
-    return res.status(400).json({ error: "author_id is required" })
-  }
+  // author_id is attached by the requireAuth middleware
+  const { author_id } = req;
+  const { parent_id, base_number, operation, operand } = req.body;
 
   try {
     const newPost = await Post.create({
@@ -34,7 +31,15 @@ export const createPost = async (req, res) => {
       operation,
       operand,
     })
-    res.status(201).json(newPost)
+
+    // To ensure the response includes the author's name, we can fetch the full post data
+    const createdPostWithAuthor = await Post.findById(newPost.id);
+
+    if (!createdPostWithAuthor) {
+      return res.status(404).json({ error: "Could not retrieve created post." });
+    }
+
+    res.status(201).json(createdPostWithAuthor);
   } catch (err) {
     console.error(err.message)
     // The DB constraint will catch invalid post types
