@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import PostsDisplay from "./components/PostsDisplay.tsx";
 import Button from "./components/Button.tsx";
 import AuthPage from "./components/Auth/AuthPage.tsx";
 
 function App() {
-  // Ideally, this would be managed by a context or state management library,
-  // but I'll do that later because I have literaly no time.
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   const handleLogout = () => {
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
     console.log("User logged out.");
   };

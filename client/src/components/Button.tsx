@@ -1,16 +1,19 @@
+import { type FormEvent } from "react";
 import "./Button.css"
 
 interface ButtonProps {
   label: string
   color?: string
   className?: string
-  onClick: () => void
+  disabled?: boolean
+  onClick: (event: any) => void
 }
 
 const Button = ({
   label,
   color = "#1d87d8",
   className,
+  disabled = false,
   onClick,
 }: ButtonProps) => {
   const buttonStyle = {
@@ -22,6 +25,7 @@ const Button = ({
       className={className ? `${className} btn` : "btn"}
       style={buttonStyle}
       onClick={onClick}
+      disabled={disabled}
     >
       {label}
     </button>

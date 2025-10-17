@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, type FormEvent } from "react";
 import Button from "../Button";
 import "./AuthPage.css";
 
@@ -12,28 +12,68 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
-    if (isLogin) {
-      // Mock login logic
-      if (username && password) {
-        console.log("Logging in with:", { username });
-        onAuthSuccess(); // Simulate successful login
-      } else {
-        setError("Username and password are required.");
+    const url = isLogin ? "http://localhost:3000/api/users/signin" : "http://localhost:3000/api/users/signup";
+    const body = isLogin
+      ? JSON.stringify({ username, password })
+      : JSON.stringify({ username, full_name: fullName, password });
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+
+      if (!response.ok) {
+        // Try to get a specific error message from the server's JSON response
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (jsonError) {
+          // If the body isn't JSON or is empty, fall back to the status text
+          throw new Error(response.statusText || "An unknown network error occurred.");
+        }
+        throw new Error(errorData.error || "An unknown error occurred.");
       }
-    } else {
-      // Mock register logic
-      if (username && password && fullName) {
-        console.log("Registering with:", { fullName, username });
-        onAuthSuccess(); // Simulate successful registration
+
+      const data = await response.json();
+      // Assuming the token should be stored for session management
+      localStorage.setItem("user", JSON.stringify(data));
+
+      console.log(isLogin ? "Login successful" : "Registration successful", data);
+      onAuthSuccess();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const toggleForm = () => {
+    setIsLogin(!isLogin);
+    setError("");
+    // Clear form fields when switching
+    setUsername("");
+    setPassword("");
+    setFullName("");
+  };
+
+  const getButtonLabel = () => {
+    if (isLoading) {
+      if (isLogin) {
+        return "Logging In...";
       } else {
-        setError("Full Name, Username, and Password are required.");
+        return "Creating Account...";
       }
     }
+    return isLogin ? "Log In" : "Create Account";
   };
 
   return (
@@ -47,6 +87,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
             <label htmlFor="fullName">Full Name</label>
             <input
               id="fullName"
+              required
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
@@ -59,6 +100,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
           <label htmlFor="username">Username</label>
           <input
             id="username"
+            required
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -70,15 +112,15 @@ const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess }) => {
           <label htmlFor="password">Password</label>
           <input
             id="password"
+            required
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
           />
         </div>
-
-        <Button label={isLogin ? "Log In" : "Create Account"} onClick={() => {}} />
-        <p className="toggle-auth" onClick={() => setIsLogin(!isLogin)}>
+        <Button label={getButtonLabel()} disabled={isLoading} onClick={handleSubmit} />
+        <p className="toggle-auth" onClick={toggleForm}>
           {isLogin ? "Need an account? Register" : "Already have an account? Log In"}
         </p>
       </form>
